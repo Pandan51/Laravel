@@ -11,11 +11,11 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('products.index')" :active="request()->routeIs('products.*')">
-                        Products
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        Dashboard
                     </x-nav-link>
-                    <x-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.*')">
-                        Categories
+                    <x-nav-link :href="route('catalog.index')" :active="request()->routeIs('catalog.*')">
+                        Catalog
                     </x-nav-link>
                     @auth
                         <x-nav-link :href="route('carts.index')" :active="request()->routeIs('carts.*')">
@@ -24,6 +24,11 @@
                         <x-nav-link :href="route('orders.index')" :active="request()->routeIs('orders.*')">
                             Orders
                         </x-nav-link>
+                        @if(auth()->user()->isAdmin())
+                            <x-nav-link :href="route('admin.products.index')" :active="request()->routeIs('admin.*')">
+                                Admin
+                            </x-nav-link>
+                        @endif
                     @endauth
                 </div>
             </div>
@@ -81,11 +86,11 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('products.index')" :active="request()->routeIs('products.*')">
-                Products
+            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                Dashboard
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.*')">
-                Categories
+            <x-responsive-nav-link :href="route('catalog.index')" :active="request()->routeIs('catalog.*')">
+                Catalog
             </x-responsive-nav-link>
             @auth
                 <x-responsive-nav-link :href="route('carts.index')" :active="request()->routeIs('carts.*')">
@@ -94,6 +99,11 @@
                 <x-responsive-nav-link :href="route('orders.index')" :active="request()->routeIs('orders.*')">
                     Orders
                 </x-responsive-nav-link>
+                @if(auth()->user()->isAdmin())
+                    <x-responsive-nav-link :href="route('admin.products.index')" :active="request()->routeIs('admin.*')">
+                        Admin
+                    </x-responsive-nav-link>
+                @endif
             @endauth
         </div>
 

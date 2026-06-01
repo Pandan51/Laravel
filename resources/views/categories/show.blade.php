@@ -4,21 +4,23 @@
 			<h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
 				{{ $category->name }}
 			</h2>
-			<div class="flex gap-3">
-				<a href="{{ route('categories.edit', $category) }}"
-					class="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 text-sm">
-					Edit
-				</a>
-				<form action="{{ route('categories.destroy', $category) }}" method="POST"
-					onsubmit="return confirm('Delete this category?')">
-					@csrf
-					@method('DELETE')
-					<button type="submit"
-						class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 text-sm">
-						Delete
-					</button>
-				</form>
-			</div>
+			@if(auth()->user()?->isAdmin())
+				<div class="flex gap-3">
+					<a href="{{ route('admin.categories.edit', $category) }}"
+						class="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 text-sm">
+						Edit
+					</a>
+					<form action="{{ route('admin.categories.destroy', $category) }}" method="POST"
+						onsubmit="return confirm('Delete this category?')">
+						@csrf
+						@method('DELETE')
+						<button type="submit"
+							class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 text-sm">
+							Delete
+						</button>
+					</form>
+				</div>
+			@endif
 		</div>
 	</x-slot>
 
@@ -42,7 +44,7 @@
 					@endif
 
 					<div class="mt-6">
-						<a href="{{ route('categories.index') }}" class="text-sm text-indigo-600 hover:underline">
+						<a href="{{ route('admin.categories.index') }}" class="text-sm text-indigo-600 hover:underline">
 							← Back to categories
 						</a>
 					</div>

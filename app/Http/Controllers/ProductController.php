@@ -36,7 +36,7 @@ class ProductController extends Controller
 
 		$product->categories()->sync($request->input('categories', []));
 
-		return redirect()->route('products.index');
+		return redirect()->route('admin.products.index');
 	}
 
 	public function show(Product $product)
@@ -66,12 +66,12 @@ class ProductController extends Controller
 
 		$product->categories()->sync($request->input('categories', []));
 
-		return redirect()->route('products.index');
+		return redirect()->route('admin.products.index');
 	}
 
 	public function destroy(Product $product)
 	{
 		$product->delete();
-		return redirect()->route('products.index');
+		return redirect()->route('admin.products.index');
 	}
 }

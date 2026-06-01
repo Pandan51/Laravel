@@ -4,21 +4,23 @@
 			<h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
 				{{ $product->name }}
 			</h2>
-			<div class="flex gap-3">
-				<a href="{{ route('products.edit', $product) }}"
-					class="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 text-sm">
-					Edit
-				</a>
-				<form action="{{ route('products.destroy', $product) }}" method="POST"
-					onsubmit="return confirm('Delete this product?')">
-					@csrf
-					@method('DELETE')
-					<button type="submit"
-						class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 text-sm">
-						Delete
-					</button>
-				</form>
-			</div>
+			@if(auth()->user()?->isAdmin())
+				<div class="flex gap-3">
+					<a href="{{ route('admin.products.edit', $product) }}"
+						class="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 text-sm">
+						Edit
+					</a>
+					<form action="{{ route('admin.products.destroy', $product) }}" method="POST"
+						onsubmit="return confirm('Delete this product?')">
+						@csrf
+						@method('DELETE')
+						<button type="submit"
+							class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 text-sm">
+							Delete
+						</button>
+					</form>
+				</div>
+			@endif
 		</div>
 	</x-slot>
 
@@ -55,7 +57,7 @@
 					@endauth
 
 					<div class="mt-6">
-						<a href="{{ route('products.index') }}" class="text-sm text-indigo-600 hover:underline">
+						<a href="{{ route('catalog.index') }}" class="text-sm text-indigo-600 hover:underline">
 							← Back to products
 						</a>
 					</div>

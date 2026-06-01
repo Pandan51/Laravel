@@ -4,10 +4,12 @@
 			<h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
 				Products
 			</h2>
-			<a href="{{ route('products.create') }}"
-				class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 text-sm">
-				Add Product
-			</a>
+			@if(auth()->user()?->isAdmin())
+				<a href="{{ route('admin.products.create') }}"
+					class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 text-sm">
+					Add Product
+				</a>
+			@endif
 		</div>
 	</x-slot>
 
@@ -43,14 +45,16 @@
 											{{ $product->categories->pluck('name')->join(', ') ?: '—' }}
 										</td>
 										<td class="py-2 flex gap-3">
-											<a href="{{ route('products.edit', $product) }}"
-												class="text-sm text-yellow-600 hover:underline">Edit</a>
-											<form action="{{ route('products.destroy', $product) }}" method="POST"
-												onsubmit="return confirm('Delete this product?')">
-												@csrf
-												@method('DELETE')
-												<button type="submit" class="text-sm text-red-600 hover:underline">Delete</button>
-											</form>
+											@if(auth()->user()?->isAdmin())
+												<a href="{{ route('admin.products.edit', $product) }}"
+													class="text-sm text-yellow-600 hover:underline">Edit</a>
+												<form action="{{ route('admin.products.destroy', $product) }}" method="POST"
+													onsubmit="return confirm('Delete this product?')">
+													@csrf
+													@method('DELETE')
+													<button type="submit" class="text-sm text-red-600 hover:underline">Delete</button>
+												</form>
+											@endif
 										</td>
 									</tr>
 								@endforeach

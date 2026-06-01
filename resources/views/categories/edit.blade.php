@@ -9,7 +9,7 @@
 		<div class="max-w-xl mx-auto sm:px-6 lg:px-8">
 			<div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
 				<div class="p-6">
-					<form action="{{ route('categories.update', $category) }}" method="POST">
+					<form action="{{ route('admin.categories.update', $category) }}" method="POST">
 						@csrf
 						@method('PUT')
 
@@ -22,7 +22,7 @@
 
 						<div class="flex gap-3">
 							<x-primary-button>Update</x-primary-button>
-							<a href="{{ route('categories.index') }}"
+							<a href="{{ route('admin.categories.index') }}"
 								class="px-4 py-2 text-sm text-gray-600 hover:underline">Cancel</a>
 						</div>
 					</form>
