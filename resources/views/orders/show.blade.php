@@ -23,10 +23,6 @@
 
 			{{-- Status + meta --}}
 			<div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
-				@if(session('error'))
-					<p class="mb-4 text-red-600 text-sm">{{ session('error') }}</p>
-				@endif
-
 				<div class="flex gap-8">
 					<div>
 						<span class="text-sm text-gray-500">Date</span>

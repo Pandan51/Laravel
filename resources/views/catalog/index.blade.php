@@ -31,8 +31,15 @@
 				<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
 					@foreach($products as $product)
 						<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden flex flex-col">
-							<div class="h-48 bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
-								<span class="text-gray-400 dark:text-gray-500 text-xs">No image</span>
+							<div class="h-48 bg-gray-100 dark:bg-gray-700 flex items-center justify-center overflow-hidden">
+								@php $img = $product->images->firstWhere('is_default', true) ?? $product->images->first(); @endphp
+								@if ($img)
+									<img src="{{ asset('storage/' . $img->image_path) }}"
+										alt="{{ $product->name }}"
+										class="h-full w-full object-cover" />
+								@else
+									<span class="text-gray-400 dark:text-gray-500 text-xs">No image</span>
+								@endif
 							</div>
 							<div class="p-4 flex flex-col flex-1">
 								<h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1 leading-tight">
@@ -54,7 +61,12 @@
 						</div>
 					@endforeach
 				</div>
+			@if ($products->hasPages())
+				<div class="mt-8">
+					{{ $products->links() }}
+				</div>
 			@endif
+		@endif
 
 		</div>
 	</div>

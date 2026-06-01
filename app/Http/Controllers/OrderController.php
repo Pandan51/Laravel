@@ -51,7 +51,7 @@ class OrderController extends Controller
 
 		$cart->delete();
 
-		return redirect()->route('orders.show', $order);
+		return redirect()->route('orders.show', $order)->with('success', 'Order placed successfully.');
 	}
 
 	public function show(Order $order)
@@ -71,7 +71,7 @@ class OrderController extends Controller
 
 		$order->update(['status' => $request->status]);
 
-		return redirect()->route('orders.show', $order);
+		return redirect()->route('orders.show', $order)->with('success', 'Order status updated.');
 	}
 
 	public function destroy(Order $order)
@@ -85,7 +85,7 @@ class OrderController extends Controller
 
 		$order->update(['status' => OrderStatus::Cancelled]);
 
-		return redirect()->route('orders.index');
+		return redirect()->route('orders.index')->with('success', 'Order cancelled.');
 	}
 
 	private function authorizeOrder(Order $order): void

@@ -29,6 +29,24 @@
 			<div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
 				<div class="p-6 text-gray-900 dark:text-gray-100 space-y-4">
 
+					@if ($product->images->isNotEmpty())
+						<div>
+							@php $primary = $product->images->firstWhere('is_default', true) ?? $product->images->first(); @endphp
+							<img src="{{ asset('storage/' . $primary->image_path) }}"
+								alt="{{ $product->name }}"
+								class="w-full max-h-80 object-contain rounded-md bg-gray-50 dark:bg-gray-700" />
+							@if ($product->images->count() > 1)
+								<div class="flex gap-2 flex-wrap mt-2">
+									@foreach ($product->images->sortBy('sort_order') as $img)
+										<img src="{{ asset('storage/' . $img->image_path) }}"
+											alt="{{ $product->name }}"
+											class="h-16 w-16 object-cover rounded border-2 {{ $img->is_default ? 'border-indigo-400' : 'border-gray-200 dark:border-gray-600' }}" />
+									@endforeach
+								</div>
+							@endif
+						</div>
+					@endif
+
 					<div>
 						<span class="font-semibold">Price:</span>
 						{{ number_format($product->price, 2) }}

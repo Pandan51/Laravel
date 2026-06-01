@@ -34,7 +34,7 @@ class CartController extends Controller
 			]);
 		}
 
-		return redirect()->route('carts.index');
+		return redirect()->route('carts.index')->with('success', 'Item added to cart.');
 	}
 
 	public function update(Request $request, Cart $cart)
@@ -48,17 +48,17 @@ class CartController extends Controller
 			->where('id', $request->cart_item_id)
 			->update(['quantity' => $request->quantity]);
 
-		return redirect()->route('carts.index');
+		return redirect()->route('carts.index')->with('success', 'Cart updated.');
 	}
 
 	public function destroy(Request $request, Cart $cart)
 	{
 		if ($request->has('cart_item_id')) {
 			$cart->items()->where('id', $request->cart_item_id)->delete();
-		} else {
-			$cart->delete();
+			return redirect()->route('carts.index')->with('success', 'Item removed.');
 		}
 
-		return redirect()->route('carts.index');
+		$cart->delete();
+		return redirect()->route('carts.index')->with('success', 'Cart cleared.');
 	}
 }

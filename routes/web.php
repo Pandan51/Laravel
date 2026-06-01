@@ -5,6 +5,7 @@ use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +27,10 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('products', ProductController::class)->except(['show']);
     Route::resource('categories', CategoryController::class);
+    Route::delete('products/{product}/images/{image}', [ProductImageController::class, 'destroy'])
+        ->name('product-images.destroy');
+    Route::patch('products/{product}/images/{image}/primary', [ProductImageController::class, 'setPrimary'])
+        ->name('product-images.set-primary');
 });
 
 

@@ -12,13 +12,13 @@ class CatalogController extends Controller
 	{
 		$categories = Category::all();
 
-		$query = Product::with('categories');
+		$query = Product::with(['categories', 'images']);
 
 		if ($request->filled('category')) {
 			$query->whereHas('categories', fn($q) => $q->where('categories.id', $request->category));
 		}
 
-		$products = $query->get();
+		$products = $query->paginate(12)->withQueryString();
 		$activeCategory = $request->integer('category') ?: null;
 
 		return view('catalog.index', compact('products', 'categories', 'activeCategory'));
