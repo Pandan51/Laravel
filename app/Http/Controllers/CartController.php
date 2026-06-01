@@ -34,6 +34,10 @@ class CartController extends Controller
 			]);
 		}
 
+		if ($request->expectsJson()) {
+			return response()->json(['message' => 'Item added to cart.']);
+		}
+
 		return redirect()->route('carts.index')->with('success', 'Item added to cart.');
 	}
 

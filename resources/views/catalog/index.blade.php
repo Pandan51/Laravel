@@ -31,33 +31,51 @@
 				<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
 					@foreach($products as $product)
 						<div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden flex flex-col">
-							<div class="h-48 bg-gray-100 dark:bg-gray-700 flex items-center justify-center overflow-hidden">
-								@php $img = $product->images->firstWhere('is_default', true) ?? $product->images->first(); @endphp
-								@if ($img)
-									<img src="{{ asset('storage/' . $img->image_path) }}"
-										alt="{{ $product->name }}"
-										class="h-full w-full object-cover" />
-								@else
-									<span class="text-gray-400 dark:text-gray-500 text-xs">No image</span>
-								@endif
-							</div>
-							<div class="p-4 flex flex-col flex-1">
-								<h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1 leading-tight">
-									{{ $product->name }}
-								</h3>
-								<p class="text-xs text-gray-400 dark:text-gray-500 mb-3">
-									{{ $product->categories->pluck('name')->join(', ') ?: '—' }}
-								</p>
-								<p class="text-indigo-600 dark:text-indigo-400 font-bold text-lg mb-4">
-									{{ number_format($product->price, 2) }} Kč
-								</p>
-								<div class="mt-auto">
-									<a href="{{ route('products.show', $product) }}"
-										class="block text-center w-full px-4 py-2 bg-indigo-600 text-white text-sm rounded-md hover:bg-indigo-700 transition">
-										View
-									</a>
+
+							{{-- Clickable area → product detail --}}
+							<a href="{{ route('products.show', $product) }}" class="flex flex-col flex-1 hover:opacity-95 transition">
+								<div class="h-48 bg-gray-100 dark:bg-gray-700 flex items-center justify-center overflow-hidden">
+									@php $img = $product->images->firstWhere('is_default', true) ?? $product->images->first(); @endphp
+									@if ($img)
+										<img src="{{ asset('storage/' . $img->image_path) }}"
+											alt="{{ $product->name }}"
+											class="h-full w-full object-cover" />
+									@else
+										<span class="text-gray-400 dark:text-gray-500 text-xs">No image</span>
+									@endif
 								</div>
+								<div class="p-4 flex flex-col flex-1">
+									<h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-1 leading-tight">
+										{{ $product->name }}
+									</h3>
+									<p class="text-xs text-gray-400 dark:text-gray-500 mb-3">
+										{{ $product->categories->pluck('name')->join(', ') ?: '—' }}
+									</p>
+									<p class="text-indigo-600 dark:text-indigo-400 font-bold text-lg">
+										{{ number_format($product->price, 2) }} Kč
+									</p>
+								</div>
+							</a>
+
+							{{-- Add to Cart — separate from the link above --}}
+							<div class="px-4 pb-4">
+								@auth
+									<form class="add-to-cart-form" action="{{ route('carts.store') }}" method="POST">
+										@csrf
+										<input type="hidden" name="product_id" value="{{ $product->id }}">
+										<button type="submit"
+											class="add-to-cart-btn w-full px-4 py-2 bg-indigo-600 text-white text-sm rounded-md hover:bg-indigo-700 transition">
+											Add to Cart
+										</button>
+									</form>
+								@else
+									<a href="{{ route('login') }}"
+										class="block text-center w-full px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 text-sm rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition">
+										Login to buy
+									</a>
+								@endauth
 							</div>
+
 						</div>
 					@endforeach
 				</div>
@@ -70,4 +88,5 @@
 
 		</div>
 	</div>
+
 </x-app-layout>

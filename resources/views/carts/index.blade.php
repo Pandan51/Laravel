@@ -26,7 +26,12 @@
 							<tbody>
 								@foreach($cart->items as $item)
 									<tr class="border-b dark:border-gray-700">
-										<td class="py-3 pr-4">{{ $item->product->name }}</td>
+										<td class="py-3 pr-4">
+												<a href="{{ route('products.show', $item->product) }}"
+													class="hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline">
+													{{ $item->product->name }}
+												</a>
+											</td>
 										<td class="py-3 pr-4">{{ number_format($item->product->price, 2) }}</td>
 
 										{{-- Update quantity form --}}
