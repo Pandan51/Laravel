@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\CategoryController;
@@ -9,11 +10,14 @@ use App\Http\Controllers\ProductImageController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/dashboard', [CatalogController::class, 'index'])->name('dashboard');
+Route::get('/', fn() => redirect()->route('catalog.index'));
+Route::get('/dashboard', fn() => redirect()->route('catalog.index'))->name('dashboard');
 
 // Public catalog
-Route::get('/', [CatalogController::class, 'index'])->name('catalog.index');
-Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
+Route::prefix('catalog')->group(function () {
+    Route::get('/', [CatalogController::class, 'index'])->name('catalog.index');
+    Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -25,6 +29,7 @@ Route::middleware('auth')->group(function () {
 
 // Admin section
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', [AdminController::class, 'index'])->name('index');
     Route::resource('products', ProductController::class)->except(['show']);
     Route::resource('categories', CategoryController::class);
     Route::delete('products/{product}/images/{image}', [ProductImageController::class, 'destroy'])

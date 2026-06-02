@@ -11,7 +11,7 @@
 ## Project Goal
 Learning project — product catalog e-shop with cart and orders.
 
-## Current State (2026-06-01)
+## Current State (2026-06-02)
 
 ### Migrations — done
 All tables created and run:
@@ -34,7 +34,10 @@ All models in `app/Models/` with $fillable, casts, relationships.
 - `app/Enums/OrderStatus.php` — Pending, Paid, Shipped, Cancelled
 
 ### Routes — done
-- Public: `catalog` (CatalogController), `products` resource (show only)
+- `/` and `/dashboard` — redirect na `catalog.index`
+- Public (prefix `catalog/`):
+  - `GET /catalog` → `CatalogController@index` (name: `catalog.index`); filter: `?category={id}`
+  - `GET /catalog/products/{product}` → `ProductController@show` (name: `products.show`)
 - Auth: `orders`, `carts` resource
 - Admin middleware group (`auth` + `admin`, prefix `admin/`, name `admin.`):
   - `products` resource (except show)
@@ -43,12 +46,12 @@ All models in `app/Models/` with $fillable, casts, relationships.
   - `PATCH admin/products/{product}/images/{image}/primary` → `ProductImageController@setPrimary`
 
 ### Controllers — done
-- `CatalogController` — public catalog with category filter, paginate(12), withQueryString()
-- `CategoryController` — full CRUD, route-model binding
+- `CatalogController` — public catalog with category filter (`?category={id}`), paginate(12), withQueryString()
+- `CategoryController` — full CRUD, route-model binding (admin only)
 - `ProductController` — full CRUD, filter by name (ilike) + multi-category (whereIn), paginate(15), withQueryString(); image upload on store/update; storage cleanup on destroy
 - `ProductImageController` — destroy (delete file + reassign primary), setPrimary (reset all → set one)
 - `CartController` — index, store (add/increment; returns JSON for AJAX requests), update (quantity), destroy (item or clear)
-- `OrderController` — index, create, store (from cart), show, update (status), destroy (cancel)
+- `OrderController` — index, create, store (from cart), show, update (status), destroy (cancel); ownership check via `authorizeOrder()` (abort 403 on mismatch)
 
 ### Blade Views — done
 - `resources/views/catalog/` — index (category filter, product grid with primary image + Add to Cart button, pagination)
@@ -69,7 +72,8 @@ Laravel Breeze installed, views in `resources/views/auth/`.
 - `CategorySeeder` — 6 fixed categories
 - `ProductSeeder` — 20 products via factory, each with 1–2 random categories
 - `ProductImageSeeder` — downloads 2 images per product from picsum.photos (seed-based, deterministic); reads `CURL_CA_BUNDLE` from `.env` for Guzzle SSL on Windows
-- `DatabaseSeeder` — calls all seeders in order: User → Category → Product → ProductImage
+- `OrderSeeder` — 3 orders per user (Pending, Paid, Shipped), each with 2–3 random products
+- `DatabaseSeeder` — calls all seeders in order: User → Category → Product → ProductImage → Order
 
 ### Image upload — done
 - Files stored in `storage/app/public/products/` via `Storage::disk('public')`
@@ -88,13 +92,10 @@ Laravel Breeze installed, views in `resources/views/auth/`.
 - Badge shown on cart icon when count > 0; displays 99+ for large counts
 
 ## Known Issues / Notes
-- Status update on orders/show is accessible to any authenticated user (no ownership check)
 - Running `db:seed` without `migrate:fresh` creates duplicate records — always use `migrate:fresh --seed`
 - WAMP/Windows: Guzzle SSL requires `CURL_CA_BUNDLE` in `.env` pointing to `cacert.pem`; PHP `php.ini` curl.cainfo alone is not enough for Guzzle
 - Nested forms (form inside form) are invalid HTML — browsers ignore inner form tags, causing unexpected submissions. Keep image action forms outside the product edit form.
 
 ## Next Steps (optional extensions)
-1. Ownership check on orders — users can only see/cancel their own orders
-2. Pagination on categories index
-3. Order status history log
-4. Categories admin page (list + edit/delete) — currently only create is accessible from admin
+1. Pagination on categories index
+2. Order status history log

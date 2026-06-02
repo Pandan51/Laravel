@@ -2,12 +2,12 @@
 	<x-slot name="header">
 		<div class="flex justify-between items-center">
 			<h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-				Admin
+				Products
 			</h2>
 			<div class="flex gap-2">
-				<a href="{{ route('admin.categories.create') }}"
+				<a href="{{ route('admin.categories.index') }}"
 					class="px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600 text-sm">
-					Add Category
+					Categories
 				</a>
 				<a href="{{ route('admin.products.create') }}"
 					class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 text-sm">

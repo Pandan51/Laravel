@@ -26,15 +26,15 @@
 				<div class="flex gap-8">
 					<div>
 						<span class="text-sm text-gray-500">Date</span>
-						<p>{{ $order->created_at->format('d.m.Y H:i') }}</p>
+						<p class="text-white">{{ $order->created_at->format('d.m.Y H:i') }}</p>
 					</div>
 					<div>
 						<span class="text-sm text-gray-500">Status</span>
-						<p class="font-semibold">{{ $order->status->value }}</p>
+						<p class="font-semibold text-white">{{ $order->status->value }}</p>
 					</div>
 					<div>
 						<span class="text-sm text-gray-500">Total</span>
-						<p class="font-semibold">{{ number_format($order->total_price, 2) }}</p>
+						<p class="font-semibold text-white">{{ number_format($order->total_price, 2) }}</p>
 					</div>
 				</div>
 
