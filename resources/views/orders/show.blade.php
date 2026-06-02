@@ -70,7 +70,7 @@
 					<tbody>
 						@foreach($order->items as $item)
 							<tr class="border-b dark:border-gray-700">
-								<td class="py-2 pr-4">{{ $item->product->name }}</td>
+								<td class="py-2 pr-4">{{ $item->product?->name ?? '(deleted product)' }}</td>
 								<td class="py-2 pr-4">{{ number_format($item->price_at_purchase, 2) }}</td>
 								<td class="py-2 pr-4">{{ $item->quantity }}</td>
 								<td class="py-2">

@@ -18,6 +18,14 @@ document.addEventListener('DOMContentLoaded', () => {
 				});
 
 				if (response.ok) {
+					const data = await response.json();
+
+					const badge = document.getElementById('cart-badge');
+					if (badge && data.cart_count !== undefined) {
+						badge.textContent = data.cart_count > 99 ? '99+' : data.cart_count;
+						badge.classList.remove('hidden');
+					}
+
 					btn.textContent = '✓ Added!';
 					btn.classList.replace('bg-indigo-600', 'bg-green-600');
 					btn.classList.remove('hover:bg-indigo-700');

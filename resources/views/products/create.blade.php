@@ -50,7 +50,7 @@
 								<x-input-label value="Categories" />
 								<div class="mt-1 space-y-1">
 									@foreach($categories as $category)
-										<label class="flex items-center gap-2">
+										<label class="flex items-center gap-2 text-gray-800 dark:text-gray-200">
 											<input type="checkbox" name="categories[]" value="{{ $category->id }}"
 												{{ in_array($category->id, old('categories', [])) ? 'checked' : '' }}
 												class="rounded border-gray-300 dark:border-gray-700" />
@@ -64,7 +64,7 @@
 						<div class="flex gap-3">
 							<x-primary-button>Save</x-primary-button>
 							<a href="{{ route('admin.products.index') }}"
-								class="px-4 py-2 text-sm text-gray-600 hover:underline">Cancel</a>
+								class="px-4 py-2 text-sm text-red-700 hover:underline">Cancel</a>
 						</div>
 					</form>
 				</div>

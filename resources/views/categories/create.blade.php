@@ -22,7 +22,7 @@
 						<div class="flex gap-3">
 							<x-primary-button>Save</x-primary-button>
 							<a href="{{ route('admin.categories.index') }}"
-								class="px-4 py-2 text-sm text-gray-600 hover:underline">Cancel</a>
+								class="px-4 py-2 text-sm text-red-700 hover:underline">Cancel</a>
 						</div>
 					</form>
 				</div>

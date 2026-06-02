@@ -35,7 +35,8 @@ class CartController extends Controller
 		}
 
 		if ($request->expectsJson()) {
-			return response()->json(['message' => 'Item added to cart.']);
+			$cartCount = $cart->items()->sum('quantity');
+			return response()->json(['message' => 'Item added to cart.', 'cart_count' => $cartCount]);
 		}
 
 		return redirect()->route('carts.index')->with('success', 'Item added to cart.');
